@@ -15,7 +15,7 @@ class RequestHintNumbers(
     private val registry: ActivityResultRegistry,
     private val activity: AppCompatActivity
 ) : DefaultLifecycleObserver {
-
+    private var phoneNumber: String? = null
     var credential: Credential? = null
     lateinit var launcher: ActivityResultLauncher<IntentSenderRequest>
 
@@ -25,6 +25,7 @@ class RequestHintNumbers(
         launcher = registry.register("key", owner, StartIntentSenderForResult()) { result ->
             if (result.resultCode == AppCompatActivity.RESULT_OK) {
                 credential = result.data?.getParcelableExtra(Credential.EXTRA_KEY)
+                phoneNumber = credential?.id
             }
         }
     }
